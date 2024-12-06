@@ -1,0 +1,38 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage[english]{babel}
+\usepackage[top=1cm]{geometry}
+
+\DeclareRobustCommand{\divby}{%
+	\mathrel{\text{\vbox{\baselineskip.65ex\lineskiplimit0pt\hbox{.}\hbox{.}\hbox{.}}}}%
+}
+
+\begin{document}
+	\begin{center}
+		\LARGE
+		\[\textbf{Mathematical Analyze}\]\newline
+		17.10.2024
+	\end{center}
+	\centering
+	\Large
+	\begin{flushleft}
+		Prove, that \(\sqrt[n]{n!}\) is unlimited:\\
+		Let \(\sqrt[n]{n!}\) is limited, then \(\exists x: \forall n, \sqrt[n]{n!} \leq x\).\\
+		\[\sqrt[n]{n!} \leq x\ | \uparrow^{n}\]\\
+		\[n! \leq x^n\]\\
+		\[\underbrace{1\times2\times\ldots\times n}_{n} \leq \underbrace{x\times x\times\ldots\times x}_{n}\] 
+		We knows, that we can choose any value for \(n\), then let \(n = 2x^2\):
+		\[\underbrace{1\times2\times\ldots\times x^2}_{x^2}\times \underbrace{(x+1)^2\times\ldots\times2x^2}_{x^2} \leq x^{2x^2}\]
+		So, we also know, that \(\forall i,\,a_i+a_{x^2-i+1} = 2x^2+1\), for left side of inequality. We will group multipliers this way: \(\forall i, a_i\times a_{x^2-i+1}\). After that, all multipliers will be more than \(2x^2\). Then correct:
+		\[\underbrace{2x^2\times 2x^2\times\ldots\times2x^2}_{x^2} \leq x^{2x^2}\]
+		\[(2x^2)^{x^2}\leq x^{2x^2}\]
+		\[2x^{2x^2} \leq x^{2x^2}\]
+		That's incorrect. The contradiction. Then \(\sqrt[n]{n!}\) is unlimited.
+	\end{flushleft}
+	 Q.E.D.
+	 \[
+		 \psi(n_1,n_2,\ldots,n_m) = \underbrace{\sum_{i_1 = 1}^{n_1}\sum_{i_2 = 1}^{n_2}\ldots\sum_{i_m = 1}^{n_m}}_{m}\prod\limits_{j = 1}^{m}i_j\;(\text{mod}\;p)
+	 \]
+\end{document}
