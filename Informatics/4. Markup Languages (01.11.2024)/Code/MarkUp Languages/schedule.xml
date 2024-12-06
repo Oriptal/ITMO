@@ -1,0 +1,84 @@
+<Schedulde>
+    <UserInfo>
+        <UserName>Лоскутов Прохор</UserName>
+        <ID>466537</ID>
+        <Faculty>ПИиКТ</Faculty>
+        <Program>Программная инженерия 09.03.04</Program>
+        <Lang>RU</Lang>
+        <Group>P3116</Group>
+    </UserInfo>
+    <Week Parity="Odd">
+        <Day DayName="Wednesday">
+            <Lesson>
+                <LessonName>Программирование</LessonName>
+                <Lecturer>Гаврилов Антон Валерьевич</Lecturer>
+                <Address>ул.Ломоносова, д.9, лит. М</Address>
+                <Classroom>Актовый зал</Classroom>
+                <Format>Очно-дистанционный формат</Format>
+                <Type prac="No">Лекция</Type>
+                <Time>08:20-09:50</Time>
+            </Lesson>
+            <Lesson>
+                <LessonName>Фитнес-самооборона</LessonName>
+                <Lecturer>Яковлев Игорь Сергеевич</Lecturer>
+                <Address>ул.Ломоносова, д.9, лит. Б</Address>
+                <Classroom>Борцовский зал (4506/1)</Classroom>
+                <Format>Очный формат</Format>
+                <Type>Спорт</Type>
+                <Time>10:00-11:30</Time>
+            </Lesson>
+        </Day>
+        <Day DayName="Saturday">
+            <Lesson>
+                <LessonName>Математический анализ (продвинутый уровень)</LessonName>
+                <Lecturer>Холодова Светлана Евгеньевна</Lecturer>
+                <Address>Кронверкский пр., д.49, лит.А</Address>
+                <Classroom>1405</Classroom>
+                <Format>Очный формат</Format>
+                <Type>Лекция</Type>
+                <Time>08:20-09:50</Time>
+            </Lesson>
+            <Lesson>
+                <LessonName>Специальные разделы математического анализа</LessonName>
+                <Lecturer>Холодова Светлана Евгеньевна</Lecturer>
+                <Address>Кронверкский пр., д.49, лит.А</Address>
+                <Classroom>1405</Classroom>
+                <Format>Очный формат</Format>
+                <Type>Лекция</Type>
+                <Time>10:00-11:30</Time>
+            </Lesson>
+            <Lesson>
+                <LessonName>Информатика</LessonName>
+                <Lecturer>В.В. Пономарев</Lecturer>
+                <Address>Кронверкский пр., д.49, лит.А</Address>
+                <Classroom>1328</Classroom>
+                <Format>Очный формат</Format>
+                <Type>Лабораторная</Type>
+                <Time>13:30-15:00</Time>
+            </Lesson>
+            <Lesson>
+                <LessonName>Информатика</LessonName>
+                <Lecturer>В.В. Пономарев</Lecturer>
+                <Address>Кронверкский пр., д.49, лит.А</Address>
+                <Classroom>1328</Classroom>
+                <Format>Очный формат</Format>
+                <Type>Лабораторная</Type>
+                <Time>15:20-16:50</Time>
+            </Lesson>
+            <Lesson>
+                <LessonName>Россия в истории современных международных отношений</LessonName>
+                <Lecturer>Богомазов Николай Иванович</Lecturer>
+                <Type>Лекция</Type>
+                <Note>Консультация</Note>
+                <Time>17:00-18:30</Time>
+            </Lesson>
+            <Lesson>
+                <LessonName>Россия в истории современных международных отношений</LessonName>
+                <Lecturer>Павловский Алексей Федорович</Lecturer>
+                <Type>Практика</Type>
+                <Note>Консультация</Note>
+                <Time>18:40-20:10</Time>
+            </Lesson>
+        </Day>
+    </Week>
+</Schedulde>

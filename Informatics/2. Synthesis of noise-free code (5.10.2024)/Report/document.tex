@@ -1,0 +1,357 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, left=3cm, right=1.5cm, top=2cm, bottom=2cm]{geometry}
+
+\setlength{\parindent}{1.25cm}
+
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools}
+\usepackage[russian, english]{babel}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\graphicspath{{/home/oriptal/Pictures/Screenshots}}
+
+\addto\captionsenglish{\renewcommand{\contentsname}{\huge Table of Contents}}
+\addto\captionsenglish{\renewcommand{\figurename}{Fig.}}
+
+\begin{document}
+	\begin{center}
+		\thispagestyle{empty}
+		\LARGE
+		\textbf{NRU ITMO}\\
+		SEaCT\\
+		Informatic
+		
+		\vspace{7cm}
+		
+		\huge
+		
+		\textbf{Synthesis of noise-free code}\\
+		Laboratory Work №2\\
+		\vspace{1cm}
+		\Large
+		Variant 63 
+		
+		\LARGE
+		\vspace{5cm}
+		\vbox{
+			\hfill
+			\vbox{
+				\hbox{By: Loskutov P.\,A.}
+				\hbox{To: Ponomarev V.\,V.}
+			}
+		} 
+		
+		\vspace{2.5cm}
+		Saint Petersburg, 2024
+		\newpage
+		\tableofcontents
+	\end{center}
+	\newpage
+	\section{\LARGE Problems}
+	\Large
+	\begin{enumerate}
+		\item Determine the variant of work.
+		\item Determine four messages depending on the variant.
+		\item Build a scheme of decoding a classical hamming code (7;4). 
+		\item Analyze and comment on errors in messages (part~№1).
+		\item Determine one decoded message as a sequence of 11-characters code.
+		\item Build a scheme of decoding a classical hamming code (15;11). 
+		\item Analyze and comment on errors in messages (part~№2).
+		\item Add the numbers of all 5 variants of tasks and multiply by 4. Take this number as the number of information bits in transmitted message. Calculate minimum for a given number the number of test bits and the redundancy factor.
+		\item \underline{Side Quest №1}: Write program on any programming language, which take the sequence of 7 digits "0" and "1", analyze message as a hamming code (7;4) and give correct message, and indicate bits with errors, if it exists.
+	\end{enumerate}
+	\newpage
+	\section{\LARGE Solutions and calculations}
+	\subsection{\Large Variant}
+	My ISU is 466537 \(\Rightarrow\) number of variant is \textbf{63}.
+	\subsection{\Large Determine messages №1}
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{ |c|c|c|c|c|c|c|c| } 
+			\hline
+			\multirow{3}{2em}{\centering№} & 001 & 010 & 011 & 100 & 101 & 110 & 111 \\
+			& 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ 
+			& \(r_{1}\) & \(r_{2}\) & \(i_{1}\) & \(r_{3}\) & \(i_{2}\) & \(i_{3}\) & \(i_{4}\) \\
+			\hline 
+			45 & 0 & 0 & 1 & 0 & 0 & 1 & 1 \\ 
+			\hline
+			82 & 1 & 1 & 0 & 1 & 1 & 0 & 1 \\
+			\hline
+			7 & 0 & 1 & 1 & 1 & 0 & 0 & 0 \\ 
+			\hline
+			46 & 0 & 0 & 1 & 1 & 0 & 1 & 1 \\
+			\hline
+		\end{tabular}
+		\caption{Sequences according to the variant}
+		\label{table:data}
+	\end{table}
+	\subsection{\Large Scheme of decoding Hamming's code (7;4)}
+	\begin{figure}[h!]
+		\includegraphics[scale=0.27]{DecodingHamming74}
+		\caption{This scheme shows algorithm of decoding Hamming's code (7;4)}
+		\label{fig:decoding74}
+	\end{figure}
+	\newpage
+	\subsection{\Large Decoding messages}
+	\subsubsection{\Large №45}
+	\begin{itemize}
+		\item  Count control sums:
+		\begin{align*}
+			s_{0} &= r_{1}\oplus i_{1}\oplus i_{2}\oplus i_{4}=0\oplus1\oplus0\oplus1=0\\
+			s_{1} &= r_{2}\oplus i_{1}\oplus i_{3}\oplus i_{4}=0\oplus1\oplus1\oplus1=1\\
+			s_{2} &= r_{3}\oplus i_{2}\oplus i_{3}\oplus i_{4}=0\oplus0\oplus1\oplus1=0
+		\end{align*}
+		\item Then syndrome of sequence is: \(S = (s_{0},\,s_{1},\,s_{2})\)
+		\item Find errors in the transmitted message: \[\overline{s_{2}s_{1}s_{0}}_{(2)} = 010_{(2)} = 2_{(10)} \quad \Rightarrow \quad r_{2}\]
+		\item Correct code is:
+		\begin{table}[h!]
+			\centering
+			\begin{tabular}{ |c|c|c|c|c|c|c|c| } 
+				\hline
+				\multirow{3}{4em}{\centering№45} & 001 & 010 & 011 & 100 & 101 & 110 & 111 \\
+				& 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ 
+				& \(r_{1}\) & \(r_{2}\) & \(i_{1}\) & \(r_{3}\) & \(i_{2}\) & \(i_{3}\) & \(i_{4}\) \\
+				\hline 
+				Transmitted & 0 & 0 & 1 & 0 & 0 & 1 & 1 \\ 
+				\hline
+				Correct & 0 & 1 & 1 & 0 & 0 & 1 & 1\\
+				\hline
+			\end{tabular}
+		\end{table}
+	\end{itemize}
+	\subsubsection{\Large №82}
+	\begin{itemize}
+		\item  Count control sums:
+		\begin{align*}
+			s_{0} &= r_{1}\oplus i_{1}\oplus i_{2}\oplus i_{4}=1\oplus0\oplus1\oplus1=1\\
+			s_{1} &= r_{2}\oplus i_{1}\oplus i_{3}\oplus i_{4}=1\oplus0\oplus0\oplus1=0\\
+			s_{2} &= r_{3}\oplus i_{2}\oplus i_{3}\oplus i_{4}=1\oplus1\oplus0\oplus1=1
+		\end{align*}
+		\item Then syndrome of sequence is: \(S = (s_{0},\,s_{1},\,s_{2})\)
+		\item Find errors in the transmitted message: \[\overline{s_{2}s_{1}s_{0}}_{(2)} = 101_{(2)}=5_{(10)} \quad \Rightarrow \quad i_{2}\]
+		\item Correct code is:
+		\begin{table}[h!]
+			\centering
+			\begin{tabular}{ |c|c|c|c|c|c|c|c| } 
+				\hline
+				\multirow{3}{4em}{\centering№82} & 001 & 010 & 011 & 100 & 101 & 110 & 111 \\
+				& 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ 
+				& \(r_{1}\) & \(r_{2}\) & \(i_{1}\) & \(r_{3}\) & \(i_{2}\) & \(i_{3}\) & \(i_{4}\) \\
+				\hline 
+				Transmitted & 1 & 1 & 0 & 1 & 1 & 0 & 1 \\ 
+				\hline
+				Correct & 1 & 1 & 0 & 1 & 0 & 0 & 1\\
+				\hline
+			\end{tabular}
+		\end{table}
+	\end{itemize}
+	\subsubsection{\Large №7}
+	\begin{itemize}
+		\item  Count control sums:
+		\begin{align*}
+			s_{0} &= r_{1}\oplus i_{1}\oplus i_{2}\oplus i_{4}=0\oplus1\oplus0\oplus0=1\\
+			s_{1} &= r_{2}\oplus i_{1}\oplus i_{3}\oplus i_{4}=1\oplus1\oplus0\oplus0=0\\
+			s_{2} &= r_{3}\oplus i_{2}\oplus i_{3}\oplus i_{4}=1\oplus0\oplus0\oplus0=1\\
+		\end{align*}
+		\item Then syndrome of sequence is: \(S = (s_{0},\,s_{1},\,s_{2})\)
+		\item Find errors in the transmitted message: \[\overline{s_{2}s_{1}s_{0}}_{(2)} = 101_{(2)}=5_{(10)} \quad \Rightarrow \quad i_{2}\]
+		\item Correct code is:
+		\begin{table}[h!]
+			\centering
+			\begin{tabular}{ |c|c|c|c|c|c|c|c| } 
+				\hline
+				\multirow{3}{4em}{\centering№7} & 001 & 010 & 011 & 100 & 101 & 110 & 111 \\
+				& 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ 
+				& \(r_{1}\) & \(r_{2}\) & \(i_{1}\) & \(r_{3}\) & \(i_{2}\) & \(i_{3}\) & \(i_{4}\) \\
+				\hline 
+				Transmitted & 0 & 1 & 1 & 1 & 0 & 0 & 0 \\ 
+				\hline
+				Correct & 0 & 1 & 1 & 1 & 1 & 0 & 0\\
+				\hline
+			\end{tabular}
+		\end{table}
+	\end{itemize}
+	\subsubsection{\Large №46}
+	\begin{itemize}
+		\item  Count control sums:
+		\begin{align*}
+			s_{0} &= r_{1}\oplus i_{1}\oplus i_{2}\oplus i_{4}=0\oplus1\oplus0\oplus1=0\\
+			s_{1} &= r_{2}\oplus i_{1}\oplus i_{3}\oplus i_{4}=0\oplus1\oplus1\oplus1=1\\
+			s_{2} &= r_{3}\oplus i_{2}\oplus i_{3}\oplus i_{4}=1\oplus0\oplus1\oplus1=1\\
+		\end{align*}
+		\item Then syndrome of sequence is: \(S = (s_{0},\,s_{1},\,s_{2})\)
+		\item Find errors in the transmitted message: \[\overline{s_{2}s_{1}s_{0}}_{(2)} = 110_{(2)}=6_{(10)} \quad \Rightarrow \quad i_{3}\]
+		\item Correct code is:
+		\begin{table}[h!]
+			\centering
+			\begin{tabular}{ |c|c|c|c|c|c|c|c| } 
+				\hline
+				\multirow{3}{4em}{\centering№46} & 001 & 010 & 011 & 100 & 101 & 110 & 111 \\
+				& 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ 
+				& \(r_{1}\) & \(r_{2}\) & \(i_{1}\) & \(r_{3}\) & \(i_{2}\) & \(i_{3}\) & \(i_{4}\) \\
+				\hline 
+				Transmitted & 0 & 0 & 1 & 1 & 0 & 1 & 1 \\ 
+				\hline
+				Correct & 0 & 0 & 1 & 1 & 0 & 0 & 1\\
+				\hline
+			\end{tabular}
+		\end{table}
+	\end{itemize}
+	\subsection{\Large Determine messages №2}
+	\begin{table}[h!]
+		\hspace*{-3cm}
+		\begin{tabular}{ |c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c| } 
+			\hline
+			\multirow{3}{4em}{\centering№} & 0001 & 0010 & 0011 & 0100 & 0101 & 0110 & 0111 & 1000 & 1001 & 1010 & 1011 & 1100 & 1101 & 1110 & 1111 \\
+			& 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15\\ 
+			& \(r_{1}\) & \(r_{2}\) & \(i_{1}\) & \(r_{3}\) & \(i_{2}\) & \(i_{3}\) & \(i_{4}\) & \(r_{4}\) & \(i_{5}\) & \(i_{6}\) & \(i_{7}\) & \(i_{8}\) & \(i_{9}\) & \(i_{10}\) & \(i_{11}\)\\
+			\hline 
+			63 & 0 & 1 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 0 & 1 & 1\\ 
+			\hline
+		\end{tabular}
+		\caption{Sequences according to the variant}
+		\label{table2:data}
+	\end{table}
+	\subsection{\Large Scheme of decoding Hamming's code (15;11)}
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[scale=0.33]{DecodingHamming1511}
+		\caption{This scheme shows algorithm of decoding Hamming's code (15;11)}
+		\label{fig:decoding1511}
+	\end{figure}
+	\subsection{\Large Decoding messages №2}
+	\subsubsection{\Large №63}
+	\begin{itemize}
+		\item  Count control sums:
+		\begin{multline*}
+			s_{0} = r_{1}\oplus i_{1}\oplus i_{2}\oplus i_{4}\oplus i_{5}\oplus i_{7}\oplus i_{9}\oplus i_{11}=\\=0\oplus0\oplus0\oplus1\oplus1\oplus1\oplus0\oplus1=0
+		\end{multline*}
+		\begin{multline*}
+			s_{1} = r_{2}\oplus i_{1}\oplus i_{3}\oplus i_{4}\oplus i_{6}\oplus i_{7}\oplus i_{10}\oplus i_{11}=\\=1\oplus0\oplus1\oplus1\oplus1\oplus1\oplus1\oplus1=1
+		\end{multline*}
+		\begin{multline*}
+			s_{2} = r_{3}\oplus i_{2}\oplus i_{3}\oplus i_{4}\oplus i_{8}\oplus i_{9}\oplus i_{10}\oplus i_{11}=\\=0\oplus0\oplus1\oplus1\oplus0\oplus0\oplus1\oplus1=0
+		\end{multline*}
+		\begin{multline*}
+			s_{3} = r_{4}\oplus i_{5}\oplus i_{6}\oplus i_{7}\oplus i_{8}\oplus i_{9}\oplus i_{10}\oplus i_{11}=\\=1\oplus1\oplus1\oplus1\oplus0\oplus0\oplus1\oplus1=0
+		\end{multline*}
+		\item Then syndrome of sequence is: \(S = (s_{0},\,s_{1},\,s_{2},\,s_{3})\)
+		\item Find errors in the transmitted message: \[\overline{s_{3}s_{2}s_{1}s_{0}}_{(2)} = 0010_{(2)}=2_{(10)} \quad \Rightarrow \quad r_{2}\]
+		\item Correct code is:
+		\begin{table}[h!]
+			\hspace*{-3cm}
+			\begin{tabular}{ |c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c| } 
+				\hline
+				\multirow{3}{4em}{\centering№63} & 0001 & 0010 & 0011 & 0100 & 0101 & 0110 & 0111 & 1000 & 1001 & 1010 & 1011 & 1100 & 1101 & 1110 & 1111 \\
+				& 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15\\ 
+				& \(r_{1}\) & \(r_{2}\) & \(i_{1}\) & \(r_{3}\) & \(i_{2}\) & \(i_{3}\) & \(i_{4}\) & \(r_{4}\) & \(i_{5}\) & \(i_{6}\) & \(i_{7}\) & \(i_{8}\) & \(i_{9}\) & \(i_{10}\) & \(i_{11}\)\\
+				\hline 
+				T.\(^{1}\) & 0 & 1 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 0 & 1 & 1\\ 
+				\hline
+				C.\(^{2}\) & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 0 & 0 & 1 & 1\\ 
+				\hline
+			\end{tabular}
+		\end{table}\\
+		Look to subscript for T.\footnote{T. --- Transmitted message №63.} and C.\footnote{C. --- Correct form of message.}.
+	\end{itemize}
+	\newpage
+	\subsection{\Large Calculations test bits and redundancy factor}
+	\subsubsection{\Large Calculate number}
+	\[4(45+82+7+46+63)=972_{(10)}=1111001100_{(2)}\]
+	\subsubsection{\Large Calculate minimum number of test bits}
+	\(r\) --- number of test bits, \(i\) --- number of information bits
+	\[2^{r}\geq r+i+1\]
+	We know, that \(i = 10\)(number of information bits), then we need: \[r\geq4 \quad \Longrightarrow \quad r_{\text{min}}=4\]
+	\subsubsection{\Large Calculate redundancy factor}
+	\[\frac{r}{i+r}=\frac{4}{10+4}=\frac{2}{7}=0.\overline{285714}\]
+	\subsection{\Large \underline{Side Quest №1}}
+	\newpage
+	\thispagestyle{empty}
+	\begin{figure}[H]
+		\setlength{\fboxsep}{0pt}
+		\setlength{\fboxrule}{0pt}
+		\begin{center}
+			\lstset{language=c++, numbers=left, showspaces=false,
+				showstringspaces=false, tabsize=2, breaklines=true, keywordstyle=\color{magenta}}
+			\begin{lstlisting}
+				#include <iostream>
+				#include <string>
+				
+				int log2(const int n) {
+					int ans = 0;
+					for (int i = 0; i < 31; i++) {
+						if ((1 << i) & n) ans = i;
+					}
+					return ans;
+				}
+				
+				std::string end(const int n) {
+					int r = n % 10;
+					std::string ans;
+					switch (r) {
+						case 1:ans = "st";
+						break;
+						case 2:ans = "nd";
+						break;
+						case 3:ans = "rd";
+						break;
+						default:ans = "th";
+					}
+					if (n / 10 % 10 == 1) {
+						ans = "th";
+					}
+					return ans;
+				}
+				
+				int main() {
+					std::string code;
+					std::cin >> code;
+					int n = (int) code.length();
+					int pow = log2(n);
+					int err = 0;
+					for (int i = pow; i >= 0; i--) {
+						int cnt = 0;
+						int s = 0;
+						for (int j = (1 << i) - 1; j < n; j++) {
+							s ^= code[j] - '0';
+							if (++cnt == (1 << i)) j += cnt, cnt = 0;
+						}
+						err <<= 1;
+						err += s;
+					}
+					if (err) {
+						code[err - 1] ^= 1;
+						std::cout << code << "\nTransmitted code is incorrect. Error in " << err << end(err) << " bit.";
+					} else {
+						std::cout << code << "\nTransmitted code is correct.";
+					}
+				}
+			\end{lstlisting}
+		\end{center}
+	\end{figure} 
+	\section{\LARGE Answering questions}
+	\begin{enumerate}
+		\item Classic Hamming's code has a structure  \((2^{r}-1;2^{r}-1-r)\), where \(r\) --- number of test bits. Non-classic Hamming's code has a structure  \((2^{r};2^{r}-1-r)\). The difference is in one more bit at the beginning non-classic Hamming's code, which can provide detection error with 2 bits, but also like a classic version can't recover it. This extra bit serves even parity for the message being sent. 
+		\item We need to use \((31;26)\) classic Hamming's code. Extra bits will be nulled. 
+		\item This means that ratio between initial code length and resulted code length. In other words:
+		\[\frac{|s_{\text{initial}|}}{|s_{\text{final}}|}\;\textit{--- compression ratio.}\] 
+		\item Control sum is a more general concept that refers to a value calculated by a specific algorithm. Parity bit is a special case of control sum.
+		\item Different processing methods are needed to compare the results and reduce the probability of error.
+		\item Forbidden combinations is all combinations, where number of test bits doesn't allowed determine the correctness of the information bits.
+		\item Redundancy factor is a ratio length between initial input code and resulted output code.  Compression ratio is a ratio between number of test bits and number of all bits.
+	\end{enumerate}
+	\newpage
+	\section{\LARGE Conclusion}
+	I learned what the Hamming code is, learned how to work with it, wrote an algorithm that works on its basis, and also learned about the internal structure of storing integer numbers in the computer's memory.
+	\newpage
+	\section{\LARGE References}
+	\begin{itemize}
+		\item Balakshin's lecture as a video.
+		\item Hamming's code: [site].\\URL:https://en.wikipedia.org/wiki/Hamming\_code
+	\end{itemize}
+\end{document}
+

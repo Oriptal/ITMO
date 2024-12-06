@@ -1,0 +1,9 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}\LARGE Problems}{3}{}%
+\contentsline {section}{\numberline {2}\LARGE Solving}{4}{}%
+\contentsline {subsection}{\numberline {2.1}\LARGE Variant}{4}{}%
+\contentsline {subsection}{\numberline {2.2}\LARGE Programs}{4}{}%
+\contentsline {subsection}{\numberline {2.3}\LARGE Tests}{5}{}%
+\contentsline {subsubsection}{\numberline {2.3.1}\LARGE Main Quest}{5}{}%
+\contentsline {subsubsection}{\numberline {2.3.2}\LARGE Side Quest №1}{5}{}%
+\contentsline {subsubsection}{\numberline {2.3.3}\LARGE Side Quest №2}{6}{}%

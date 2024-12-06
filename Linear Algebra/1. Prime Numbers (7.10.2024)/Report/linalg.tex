@@ -1,0 +1,93 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage[english]{babel}
+\usepackage[left=1.5cm,right=2cm,top=1.5cm,bottom=1.5cm]{geometry}
+
+\DeclareRobustCommand{\divby}{%
+	\mathrel{\text{\vbox{\baselineskip.65ex\lineskiplimit0pt\hbox{.}\hbox{.}\hbox{.}}}}%
+}
+
+\begin{document}
+	\begin{center}
+		\LARGE
+		\[\textbf{Linear Algebra}\]\newline
+		07.10.2024
+	\end{center}
+	\centering
+	\Large
+	\begin{flushleft}
+		At first, let's prove, that \((x,\,y)\) can represent in the form of linear combination \(x,y\):\newline
+		Auxiliary lemmas:
+		\begin{enumerate}
+			\item \(\forall a,b,c,d \in \mathbb{Z},\, c = a + bd\Rightarrow (a,\,b) = (c,\,b)\)\newline
+			Prove:
+			\begin{itemize}
+				\item \(d_1 = (a,\,b),\,d_2=(c,\,b)\)
+				\item \((a\divby d_1) \land (b \divby d_1)\Rightarrow\newline c=d_1(a_0+b_0d), \;a_0, b_0\in\mathbb{Z}\Rightarrow c \divby d_1 \Rightarrow d_2\divby d_1 \)
+				\item  \((a+bd \divby d_2) \land (b \divby d_2) \Rightarrow
+				bd \divby d_2\Rightarrow a \divby d_2\Rightarrow d_1 \divby d_2\)
+				\item \(d_1 \divby d_2,\,d_2 \divby d_1 \Rightarrow d_1 = d_2\)
+			\end{itemize}
+			\item Euclid's Algorithm:\newline
+			Without detracting from the generality, suppose that \(a > b, a \neq b\), then:
+			\begin{itemize}
+				\item \(a = k_0b + r_0 \Rightarrow (a,\,b) = (b,\,r_0),\;r_0 < b\)
+			\end{itemize}
+			Let~\(a=r_{-2},b=r_{-1}\), then:\newline
+			\(r_{-2}=k_0r_{-1}+r_0\newline r_{-1}=k_1r_0+r_1\newline\ldots\newline r_{n-2}=k_{n}r_{n-1}+r_n\newline 
+			r_{n-1}=k_{n+1}r_n\newline
+			(a,\,b) = r_n\)\newline
+			We know, that \(r_{-2}>r_{-1}>r_{0}>\ldots>r_n \rightarrow \forall r_i, r_j, i<j \Rightarrow r_i < r_j\). \newline Consequently Euclid's algorithm is finite.
+		\end{enumerate}
+		Now prove, that \(\forall a,b \in\mathbb{Z},\;\exists x,y\in\mathbb{Z}: ax+by=(a,\,b)\)
+		We build induction in reverse way.
+		The base is trivial: \[0\times r_{n-1}+1\times r_n = r_n\]
+		We know, that \(r_m=r_{m-2}-k_mr_{m-1}\). Let's say that \(r_{m-1}x_m+r_my_m=r_n\).\newline\(m\rightarrow m-1\):
+		\[r_{m-1}x_m+(r_{m-2}-k_mr_{m-1})y_m=r_n\]
+		\[r_{m-2}y_m+r_{m-1}(x_m-k_my_m)=r_n\]
+		Q.E.D.
+		\begin{center}
+			№6
+		\end{center}
+		\(17x+336y=1 \newline
+		17x\equiv1(\text{mod}\;336),\,x - \text{inverse number.}\newline
+		(336,\,17)\rightarrow(17,\,13)\rightarrow(13,\,4)\rightarrow(4,\,1)\newline
+		(336,\,17) = 1\)\newline
+		Upper number is coefficient of linear combination:
+		\((4^0,\,1^1)\rightarrow(13^1,\,4^{-3})\rightarrow(17^{-3}, 13^4)\rightarrow(336^4,17^{-79})\newline17\times(-79)\equiv1(mod\;336)\newline
+		-\!79\not\in0..335\rightarrow-79+336=257\)\newline
+		Answer: \(257+336t, t\in\mathbb{Z}\).
+		\begin{center}
+			№7
+		\end{center}
+		a)\(\;91x\equiv154(\text{mod}\;112)\newline
+		91x\equiv42(\text{mod}\;112)\newline
+		91x+112y=42\newline
+		(112^{-4},\,91^5)\rightarrow(91^1,\,21^{-4})\rightarrow(21^0,\,7^1)\newline
+		42\divby7 \Rightarrow
+		13x_0+16y_0=6\;|:\!6\newline
+		\text{Let } u=x_0/6,v=y_0/6\rightarrow13u+16v=1\newline
+		(16^{-4},\,13^5)\rightarrow(13^1,3^{-4})\rightarrow(3^0,1^1)\newline
+		u=5,v=-4\rightarrow x_0=30, y_0=-24
+		\)
+		\begin{equation*}
+			\begin{cases}
+				x=30-16t,\\
+				y=13t-24\text{,}\quad t\in\mathbb{Z}
+			\end{cases}
+		\end{equation*}
+		Answer: \(x=30-16t,\; t\in\mathbb{Z}\).\newline
+		\(\overline{a} = \{a+x\;:\;x\in I\}\newline
+		\overline{b} = \{b+x\;:\;x\in I\}\newline\)
+			\(\begin{cases}
+				\overline{a}+\overline{b} = \{a+b+x_i+x_j:x_i,x_j\in I\}\\
+				\forall a,b\in I, a+b\in I
+			\end{cases}\Rightarrow\;
+			\overline{a}+\overline{b} = \{a+b+x:x\in I\}\)
+		\(\overline{a+b}=\{a+b+x:x\in I\}\newline
+		\overline{a}+\overline{b}=\overline{a+b} \text{ q.e.d.}
+		\)
+	\end{flushleft}
+\end{document}

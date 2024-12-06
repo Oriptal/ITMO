@@ -1,0 +1,173 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper, left=3cm, right=1.5cm, top=2cm, bottom=2cm]{geometry}
+
+\setlength{\parindent}{1.25cm}
+
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools}
+\usepackage[russian, english]{babel}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\graphicspath{{/home/oriptal/Pictures/Screenshots}}
+
+\addto\captionsenglish{\renewcommand{\contentsname}{\huge Table of Contents}}
+\addto\captionsenglish{\renewcommand{\figurename}{Fig.}}
+
+\begin{document}
+	\begin{center}
+		\thispagestyle{empty}
+		\LARGE
+		\textbf{NRU ITMO}\\
+		SEaCT\\
+		Programming
+		
+		\vspace{7cm}
+		
+		\huge
+		
+		\textbf{Laboratory Work №1}\\
+		\vspace{2cm}
+		\Large
+		Variant 311607 
+		
+		\LARGE
+		\vspace{5cm}
+		\vbox{
+			\hfill
+			\vbox{
+				\hbox{By: Loskutov P.\,A.}
+				\hbox{To: Naumova N.\,A.}
+			}
+		} 
+		
+		\vspace{2.5cm}
+		Saint Petersburg, 2024
+		\newpage
+		\tableofcontents
+	\end{center}
+	\newpage
+	\section{\LARGE Problems}
+	\Large
+	\begin{enumerate}
+		\item Create \(w\) - int[17], \(x\) - double[17], \(w_1\) - double[17][17].
+		\item Fill arrays this way:
+		\begin{itemize}
+		\item \(\forall i \in [0..16],\,w[i] = 17 - i\)
+		\item \(\forall i \in [0..16],\,x[i] = rnd(-13.0, 4.0)\)
+			\item \(\forall i: w[i] = 3 \rightarrow \forall j, w_1[i][j] = \arcsin(\frac{1}{e^{3(\tan^2(x)+1)^{\tan(x^{2x})})}})\)
+			\item \(\forall i: w[i] \in \{1, 9, 10, 12, 13, 14, 15, 16\} \rightarrow\\\rightarrow \forall j, w_1[i][j] = (\arcsin(\frac{x-4.5}{17})^{(\frac{\frac{2}{3}+\sqrt{3}x}{0.5})})^{\frac{\sqrt[3]{\arctan(\frac{x-4.5}{17})}}{2}}\)
+			\item else: \(\forall j,w_1[i][j] = ((\frac{(\arcsin(\frac{x-4.5}{17}))^{3}}{1}/4)^{(\frac{\sqrt[3]{x}}{2})^3})^{\frac{1-\frac{\frac{1}{2}-\sin(e^{x})}{4}/(\frac{x}{3-x})^2}{\arcsin(0.4\times e^{-|x|})}}
+		\)
+		\end{itemize}
+	\end{enumerate}
+	\newpage
+	\section{\LARGE Code}
+	\begin{figure}[H]
+		\setlength{\fboxsep}{0pt}
+		\setlength{\fboxrule}{0pt}
+		\begin{center}
+			\lstset{language=Java, showspaces=false,
+				showstringspaces=false, tabsize=2, breaklines=true, keywordstyle=\color{magenta}}
+			\begin{lstlisting}
+				public class Main {
+					static final int n = 17;
+					static int[] w;
+					static double[] x;
+					static double[][] w1; 
+					
+					static void print(double[][] a) {
+						for (int i = 0; i < n; i++) {
+							for (int j = 0; j < n; j++) {
+								System.out.printf("%7.5f", a[i][j]);
+								System.out.print(' ');
+							}
+							System.out.println();
+						}
+					}
+					
+					public static void main(String[] args) {   
+						exFirst();
+						exSecond();
+						exThird();
+						print(w1);
+					}
+					
+					static void exFirst() {
+						w = new int[n];
+						for (int i = 0; i < n; i++) {
+							w[i] = 17 - i;
+						}
+					} 
+					
+					static void exSecond() {
+						x = new double[n];
+						for (int i = 0; i < n; i++) {
+							x[i] = (Math.random() * n) - 13;
+						}
+					}
+					
+					static void exThird() {
+						w1 = new double[n][n];
+						for (int i = 0; i < n; i++) {
+							for (int j = 0; j < n; j++) {
+								w1[i][j] = count(w1[i][j], i, j);
+							}
+						}
+					}
+				}
+			\end{lstlisting}
+		\end{center}
+	\end{figure}
+	\begin{figure}[H]
+		\setlength{\fboxsep}{0pt}
+		\setlength{\fboxrule}{0pt}
+		\begin{center}
+			\lstset{language=Java, showspaces=false,
+				showstringspaces=false, tabsize=2, breaklines=true, keywordstyle=\color{magenta}}
+			\begin{lstlisting}
+					static double count(double e_w1, int i, int j) {
+						e_w1 = switch (w[i]) {
+							case 3 -> firstFunc(x[j]);
+							case 1, 9, 10, 12, 13, 14, 15, 16 -> secFunc(x[j]);
+							default -> thirdFunc(x[j]);
+						};
+						return e_w1;
+					}
+					
+					static double firstFunc(double x) {
+						double upper_power = Math.tan(Math.pow(x, 2*x));
+						double lower_power = Math.pow((3*(Math.pow(Math.tan(x),2)+1)), upper_power);
+						double denom = Math.exp(lower_power);
+						double ans = Math.asin(1.0/denom);
+						return ans;
+					}
+					
+					static double secFunc(double x) {
+						double arg = (x - 4.5) / 17.0;
+						double upper_power = Math.pow(Math.atan(arg), 1.0/3.0) / 2.0;
+						double lower_power = ((2.0/3.0) + Math.pow(x, 1.0/3.0)) / 0.5;
+						double inside = Math.pow(Math.asin(arg), lower_power);
+						double ans = Math.pow(inside, upper_power);
+						return ans;
+					} 
+					
+					static double thirdFunc(double x) {
+						double strange_lower_pow = x / 8.0;
+						double arg = Math.pow(Math.pow(Math.asin((x - 4.5) / 17.0), 3.0) / 4.0, strange_lower_pow);
+						double denom = Math.asin(0.4*Math.exp(-Math.abs(x)));
+						double nom_denom = Math.pow(x/(3.0 - x), 2);
+						double nom = 1 - ((0.5 - Math.sin(Math.exp(x)))/4.0)/nom_denom;
+						double arg_pow = nom / denom;
+						double ans = Math.pow((arg), arg_pow);
+						return ans;
+					} 
+				}
+			\end{lstlisting}
+		\end{center}
+	\end{figure}
+\end{document}
+

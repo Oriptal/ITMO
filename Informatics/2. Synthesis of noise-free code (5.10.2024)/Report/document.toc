@@ -1,0 +1,23 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}\LARGE Problems}{3}{}%
+\contentsline {section}{\numberline {2}\LARGE Solutions and calculations}{4}{}%
+\contentsline {subsection}{\numberline {2.1}\Large Variant}{4}{}%
+\contentsline {subsection}{\numberline {2.2}\Large Determine messages №1}{4}{}%
+\contentsline {subsection}{\numberline {2.3}\Large Scheme of decoding Hamming's code (7;4)}{4}{}%
+\contentsline {subsection}{\numberline {2.4}\Large Decoding messages}{5}{}%
+\contentsline {subsubsection}{\numberline {2.4.1}\Large №45}{5}{}%
+\contentsline {subsubsection}{\numberline {2.4.2}\Large №82}{5}{}%
+\contentsline {subsubsection}{\numberline {2.4.3}\Large №7}{6}{}%
+\contentsline {subsubsection}{\numberline {2.4.4}\Large №46}{6}{}%
+\contentsline {subsection}{\numberline {2.5}\Large Determine messages №2}{7}{}%
+\contentsline {subsection}{\numberline {2.6}\Large Scheme of decoding Hamming's code (15;11)}{7}{}%
+\contentsline {subsection}{\numberline {2.7}\Large Decoding messages №2}{8}{}%
+\contentsline {subsubsection}{\numberline {2.7.1}\Large №63}{8}{}%
+\contentsline {subsection}{\numberline {2.8}\Large Calculations test bits and redundancy factor}{9}{}%
+\contentsline {subsubsection}{\numberline {2.8.1}\Large Calculate number}{9}{}%
+\contentsline {subsubsection}{\numberline {2.8.2}\Large Calculate minimum number of test bits}{9}{}%
+\contentsline {subsubsection}{\numberline {2.8.3}\Large Calculate redundancy factor}{9}{}%
+\contentsline {subsection}{\numberline {2.9}\Large \underline {Side Quest №1}}{9}{}%
+\contentsline {section}{\numberline {3}\LARGE Answering questions}{11}{}%
+\contentsline {section}{\numberline {4}\LARGE Conclusion}{12}{}%
+\contentsline {section}{\numberline {5}\LARGE References}{13}{}%
