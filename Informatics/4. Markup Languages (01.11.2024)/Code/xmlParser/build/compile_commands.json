@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/oriptal/Labs/Informatics/4. Markup Languages (01.11.2024)/Code/xmlParser/build",
+  "command": "/usr/bin/g++ -g -o CMakeFiles/xmlParser.dir/main.cpp.o -c \"/home/oriptal/Labs/Informatics/4. Markup Languages (01.11.2024)/Code/xmlParser/main.cpp\"",
+  "file": "/home/oriptal/Labs/Informatics/4. Markup Languages (01.11.2024)/Code/xmlParser/main.cpp",
+  "output": "CMakeFiles/xmlParser.dir/main.cpp.o"
+},
+{
+  "directory": "/home/oriptal/Labs/Informatics/4. Markup Languages (01.11.2024)/Code/xmlParser/build",
+  "command": "/usr/bin/g++ -g -o CMakeFiles/xmlParser.dir/sub_quests/Converter.cpp.o -c \"/home/oriptal/Labs/Informatics/4. Markup Languages (01.11.2024)/Code/xmlParser/sub_quests/Converter.cpp\"",
+  "file": "/home/oriptal/Labs/Informatics/4. Markup Languages (01.11.2024)/Code/xmlParser/sub_quests/Converter.cpp",
+  "output": "CMakeFiles/xmlParser.dir/sub_quests/Converter.cpp.o"
+}
+]

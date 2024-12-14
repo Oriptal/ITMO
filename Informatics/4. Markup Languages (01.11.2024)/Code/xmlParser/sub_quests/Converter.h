@@ -30,7 +30,7 @@ class Converter {
   static std::vector<std::string> parseXML(const std::string& filePath);
   static std::string getTab(int tabSize);
   static std::string putBrackets(const std::string &str);
-  int getVariableValue(std::string s);
+  int getVariableValue(std::string &s);
   std::string getOutput(Node *&v, int tabSize, bool inList);
   std::string ToChild(Node *&v, int tabSize);
   std::string replaceVariables(const std::string &line);
