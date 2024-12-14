@@ -3,7 +3,6 @@ package Team.Human.ImaginaryHuman;
 import Item.Clothes.Armor.BulletproofLegs;
 import Item.Clothes.Armor.BulletproofVest;
 import Item.Clothes.Armor.Helmet;
-import Item.Weapon.HandWeapons.Hands;
 import Item.Weapon.HandWeapons.Knife;
 import Item.Weapon.Rifle.Assault.Assault;
 import Item.Weapon.Rifle.Assault.AssaultType;

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Programming/1. Math Library Java (10.10.2024)/1. Math Library Java (10.10.2024).iml" filepath="$PROJECT_DIR$/Programming/1. Math Library Java (10.10.2024)/1. Math Library Java (10.10.2024).iml" />
+      <module fileurl="file://$PROJECT_DIR$/Programming/2. Pokemons (21.11.24)/2. Pokemons (21.11.24).iml" filepath="$PROJECT_DIR$/Programming/2. Pokemons (21.11.24)/2. Pokemons (21.11.24).iml" />
+      <module fileurl="file://$PROJECT_DIR$/ITMO.iml" filepath="$PROJECT_DIR$/ITMO.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Programming/2. Pokemons (21.11.24)/Pokemons/Pokemons.iml" filepath="$PROJECT_DIR$/Programming/2. Pokemons (21.11.24)/Pokemons/Pokemons.iml" />
+    </modules>
+  </component>
+</project>

@@ -2,7 +2,6 @@ package Team.Human.ImaginaryHuman;
 
 import Item.Clothes.Basic.Jeans;
 import Item.Clothes.Basic.Shirt;
-import Item.Weapon.HandWeapons.Hands;
 import Item.Weapon.Rifle.Assault.Assault;
 import Item.Weapon.Rifle.Assault.AssaultType;
 import Item.Weapon.Rifle.Pistol.Pistol;

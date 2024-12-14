@@ -1,16 +1,18 @@
 <?xml version = "1.0" encoding = "UTF-8" ?>
 <Schedulde>
-    <UserInfo>
-        <UserName>
-            <Name/>Прохор
-            <Surname/>Лоскутов
-        </UserName>
-        <ID>466537</ID>
-        <Faculty>ПИиКТ</Faculty>
-        <Program>Программная инженерия 09.03.04</Program>
-        <Lang>RU</Lang>
-        <Group>P3116</Group>
-    </UserInfo>
+    <for i := 1 to 5>
+        <UserInfo Bebra="${i}">
+            <UserName>
+                <Name/>Прохор
+                <Surname/>Лоскутов
+            </UserName>
+            <ID>46653${i}</ID>
+            <Faculty>ПИиКТ</Faculty>
+            <Program>Программная инженерия 09.03.04</Program>
+            <Lang>RU</Lang>
+            <Group>P3116</Group>
+        </UserInfo>
+    <end for>
     <Week Parity="Odd">
         <Day DayName="Wednesday">
             <Lesson>

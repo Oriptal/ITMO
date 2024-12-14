@@ -13,58 +13,91 @@
 #include <iostream>
 
 std::string Converter::getOutput(Node* &v, int tabSize, bool inList = false) {
-  std::string result;
-  if (!inList) {
-    result += getTab(tabSize) + v->tagName + ": ";
-    int sumSize = (int)v->attributes.size() + (int)v->childNodes.size();
-    if (sumSize == 0) {
-      result += putBrackets("");
-      return result;
-    }
-    if (sumSize == 1 && (int)v->attributes.size() == 1 && v->attributes.find("__text") != v->attributes.end()) {
-      result += v->attributes["__text"];
-      return result;
-    }
-    result += "{\n";
-  } else {
-    int sumSize = (int)v->attributes.size() + (int)v->childNodes.size();
-    if (sumSize == 0) {
-      result += putBrackets("");
-      return result;
-    }
-    if (sumSize == 1 && (int)v->attributes.size() == 1 && v->attributes.find("__text") != v->attributes.end()) {
-      result += v->attributes["__text"];
-      return result;
-    }
-    result += getTab(tabSize) + "{\n";
-  }
-  tabSize++;
-  for (auto& child: v->childNodes) {
-    std::string childTag = child.first;
-    std::vector<Node*> nodes = child.second;
-    if ((int)nodes.size() > 1) {
-      result += getTab(tabSize) + nodes.back()->tagName + ": [\n";
-      tabSize++;
-      for (auto &n : nodes) {
-        result += getOutput(n, tabSize, true) + ",\n";
-      }
-      result.pop_back(); result.pop_back();
-      tabSize--;
-      result += "\n" + getTab(tabSize) + "],\n";
+    std::string result;
+    if (v->tagName == "for") {
+        result += getTab(tabSize++) + putBrackets("for") + ": [\n";
+        int l = getVariableValue(v->attributes["__leftEdge"]), r = getVariableValue(v->attributes["__rightEdge"]);
+        for (int i = l; i <= r; i++) {
+            args[v->attributes["__variableName"]] = i;
+            result += getTab(tabSize++) + "{\n";
+            result += Converter::ToChild(v, tabSize);
+            result.pop_back();
+            if (result.back() == ',') result.pop_back();
+            result += "\n" + getTab(--tabSize) + "},\n";
+        }
+        tabSize--;
+        result.pop_back();
+        if (result.back() == ',') result.pop_back();
+        result += "\n" + getTab(tabSize) + "]";
     } else {
-      result += getOutput(nodes.back(), tabSize, false) + ",\n";
+        if (!inList) result += getTab(tabSize) + v->tagName + ": ";
+        int sumSize = (int) v->attributes.size() + (int) v->childNodes.size();
+        if (sumSize == 0) {
+            result += putBrackets("");
+            return result;
+        }
+        if (sumSize == 1 && (int) v->attributes.size() == 1 && v->attributes.find("__text") != v->attributes.end()) {
+            result += replaceVariables(v->attributes["__text"]);
+            return result;
+        }
+        if (inList)
+            result += getTab(tabSize);
+        result += "{\n";
+        tabSize++;
+        result += ToChild(v, tabSize);
+        for (auto &att: v->attributes) {
+            std::string attName = replaceVariables(att.first);
+            std::string attValue = replaceVariables(att.second);
+            result += getTab(tabSize) + putBrackets(attName) + ": " + attValue + ",\n";
+        }
+        tabSize--;
+        result.pop_back();
+        if (result.back() == ',') result.pop_back();
+        result += "\n" + getTab(tabSize) + "}";
     }
-  }
-  for (auto& att: v->attributes) {
-    std::string attName = att.first;
-    std::string attValue = att.second;
-    result += getTab(tabSize) + putBrackets(attName) + ": " + attValue + ",\n";
-  }
-  tabSize--;
-  result.pop_back();
-  if (result.back() == ',') result.pop_back();
-  result += "\n" + getTab(tabSize) + "}";
   return result;
+}
+
+std::string Converter::replaceVariables(const std::string &line) {
+    std::string s = line;
+    for (const auto &[key,val] : args) {
+        std::string variable = "${" + key + "}";
+        size_t start {s.find(variable)};            // находим позицию подстроки
+        while (start != std::string::npos) // находим и заменяем все вхождения строки old_str
+        {
+            s.replace(start, variable.length(), std::to_string(val)); // Замена old_str на new_str
+            start = s.find(variable, start + std::to_string(val).length());
+        }
+    }
+    return s;
+}
+
+std::string Converter::ToChild(Node* &v, int tabSize) {
+    std::string result;
+    for (auto& child: v->childNodes) {
+        std::string childTag = child.first;
+        std::vector<Node*> nodes = child.second;
+        if ((int)nodes.size() > 1) {
+            result += getTab(tabSize) + replaceVariables(nodes.back()->tagName) + ": [\n";
+            tabSize++;
+            for (auto &n : nodes) {
+                result += getOutput(n, tabSize, true) + ",\n";
+            }
+            result.pop_back(); result.pop_back();
+            tabSize--;
+            result += "\n" + getTab(tabSize) + "],\n";
+        } else {
+            result += getOutput(nodes.back(), tabSize, false) + ",\n";
+        }
+    }
+    return result;
+}
+
+int Converter::getVariableValue(std::string s) {
+    int res;
+    if (s[0] == '$') res = args[Converter::split(s,"${}")[0]];
+    else res = stoi(s);
+    return res;
 }
 
 void Converter::printJSON() {
@@ -76,6 +109,8 @@ void Converter::buildTree(Node* &v, int ind, const std::vector<std::string> &tag
   const std::regex singleTag(R"(<\w+\s*(\w+\s*=".*")*\s*\/>.*)");
   const std::regex openPairedTag(R"(<\w+\s*(\w+\s*=".*")*\s*>)");
   const std::regex closePairedTag(R"(<\/\w+\s*>)");
+  const std::regex openCycle(R"(<\w+\s*\w+ := \S* to \S*>)");
+  const std::regex closedCycle(R"(<end for>)");
   std::smatch match;
   if (std::regex_match(tags[ind], match, singleTag)) {  // Одинарный тег обрабатываем отдельно
     std::map<std::string, std::string> attributes = Converter::findAttributes(tags[ind]);
@@ -106,6 +141,22 @@ void Converter::buildTree(Node* &v, int ind, const std::vector<std::string> &tag
       Node* par = openTags.back();
       buildTree(par, ind, tags, openTags);
     }
+  } else if (std::regex_match(tags[ind], match, openCycle)){
+      std::map<std::string, std::string> cycleAttributes = Converter::findCycleAttributes(tags[ind]);
+      Node* u = new Node(cycleAttributes["__tagName"]);
+      cycleAttributes.erase("__tagName");
+      u->attributes = cycleAttributes;
+      openTags.push_back(u);
+      if (v != nullptr) {
+          v->childNodes[u->tagName].push_back(u);
+      } else this->root = u;
+      if (++ind < tags.size()) buildTree(u, ind, tags, openTags);
+  } else if (std::regex_match(tags[ind], match, closedCycle)) {
+      openTags.pop_back();
+      if (++ind < tags.size()) {
+          Node* par = openTags.back();
+          buildTree(par, ind, tags, openTags);
+      }
   } else {
     if (v != nullptr) {
       v->attributes["__text"] = putBrackets(tags[ind]);
@@ -114,6 +165,16 @@ void Converter::buildTree(Node* &v, int ind, const std::vector<std::string> &tag
       }
     }
   }
+}
+
+std::map<std::string, std::string> Converter::findCycleAttributes(const std::string &line) {
+    std::vector<std::string> cycleComponents = Converter::split(line, "<> ");
+    std::map<std::string, std::string> result;
+    result["__tagName"] = "for";
+    result["__variableName"] = cycleComponents[1];
+    result["__leftEdge"] = cycleComponents[3];
+    result["__rightEdge"] = cycleComponents[5];
+    return result;
 }
 
 std::map<std::string, std::string> Converter::findAttributes(const std::string &line) {
@@ -232,7 +293,7 @@ std::string Converter::readXMLFile(const std::string &filePath) {
 }
 
 std::string Converter::normalize(const std::string &code) {
-  std::vector<std::string>withXMLVersion = Converter::split(code, "\n");
+  std::vector<std::string>withXMLVersion = Converter::split(code, "\n\r");
   std::vector<std::string>splitStr = Converter::slice(withXMLVersion, 1, (int)withXMLVersion.size() - 1);
   for (std::string &str : splitStr) {
     str = Converter::trim(str, " \t");

@@ -22,6 +22,23 @@ abstract public class ImaginaryHuman extends Human {
     protected int[] effectTime = new int[4];
     protected ImaginaryHumanType humanType;
 
+    final protected class Hands extends Weapon {
+        public Hands() {
+            super(100, 0.0, 0.0, 1, 2, -1);
+        }
+
+        @Override
+        public String describe() {
+            return "Hands";
+        }
+
+        @Override
+        protected double calculatePureDamage() {
+            return 1;
+        }
+    }
+
+
     public ImaginaryHuman(String name, ImaginaryHumanType imaginaryHumanType) {
         super(name);
         Random rand = new Random();

@@ -25,14 +25,19 @@ class Converter {
   static std::vector<T> slice(const std::vector<T> &collection, int left, int right);
   static std::vector<std::string> specialSplit(const std::string &str);
   static bool inBound(const std::string &str, int ind);
+  static std::map<std::string, std::string> findCycleAttributes(const std::string &line);
   static std::map<std::string, std::string> findAttributes(const std::string &line);
   static std::vector<std::string> parseXML(const std::string& filePath);
   static std::string getTab(int tabSize);
   static std::string putBrackets(const std::string &str);
+  int getVariableValue(std::string s);
   std::string getOutput(Node *&v, int tabSize, bool inList);
+  std::string ToChild(Node *&v, int tabSize);
+  std::string replaceVariables(const std::string &line);
   void buildTree(Node* &v, int ind, const std::vector<std::string> &tags, std::vector<Node*> &openTags);
  public:
   Node* root = nullptr;
+  std::map<std::string, int> args;
   inline Converter();
   explicit Converter(const std::string &filePath);
   void rebuildTree(const std::string &filePath);
