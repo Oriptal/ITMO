@@ -93,7 +93,7 @@ std::string Converter::ToChild(Node* &v, int tabSize) {
     return result;
 }
 
-int Converter::getVariableValue(std::string s) {
+int Converter::getVariableValue(std::string &s) {
     int res;
     if (s[0] == '$') res = args[Converter::split(s,"${}")[0]];
     else res = stoi(s);
