@@ -7,12 +7,10 @@ import Team.Human.ImaginaryHuman.ImaginaryHuman;
 
 abstract public class Medicines extends Item implements IRepurchasing {
     final private double healValue;
-    final public int cost;
 
     protected Medicines(double healValue, int cost, double weight, double volume, int durabilityDelta) {
-        super(100, weight, volume, ItemType.HEAL, durabilityDelta);
+        super(weight, volume, ItemType.HEAL, durabilityDelta, cost);
         this.healValue = healValue;
-        this.cost = cost;
     }
 
     void heal(ImaginaryHuman human) {
@@ -26,13 +24,5 @@ abstract public class Medicines extends Item implements IRepurchasing {
         var user = humans[0];
         purchase(user, this);
         heal(user);
-    }
-
-    @Override
-    public String toString() {
-        return "Heal{" +
-                "healValue=" + healValue +
-                ", cost=" + cost +
-                '}';
     }
 }

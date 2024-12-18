@@ -7,6 +7,6 @@ public class RealHuman extends Human {
 
     @Override
     public String toString() {
-        return "RealHuman{}";
+        return "Игрок " + super.getName() + " ";
     }
 }

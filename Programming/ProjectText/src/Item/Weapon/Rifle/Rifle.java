@@ -9,20 +9,16 @@ abstract public class Rifle extends Weapon {
     final protected double accuracy;
     private int currentAmmoNumber;
 
-    protected Rifle(int percentageDurability, double weight, double volume, int repairTime, AmmoType ammoType, int maxAmmoNumber, int repairCost, double accuracy, int durabilityDelta) {
-        super(percentageDurability, weight, volume, repairTime, repairCost, durabilityDelta);
+    protected Rifle(double weight, double volume, int repairTime, AmmoType ammoType, int maxAmmoNumber, int repairCost, double accuracy, int durabilityDelta, int cost) {
+        super(weight, volume, repairTime, repairCost, durabilityDelta, cost);
         this.ammoType = ammoType;
         this.maxAmmoNumber = maxAmmoNumber;
         this.currentAmmoNumber = this.maxAmmoNumber;
         this.accuracy = accuracy;
     }
 
-    AmmoType getAmmoType() {
+    protected AmmoType getAmmoType() {
         return ammoType;
-    }
-
-    int getMaxAmmoNumber() {
-        return maxAmmoNumber;
     }
 
     @Override
@@ -43,20 +39,12 @@ abstract public class Rifle extends Weapon {
 
     @Override
     public void use(ImaginaryHuman... humans) {
-        var att = humans[0];
-        var opp = humans[1];
-        dealDamage(att, opp);
+        super.use(humans);
         reloadGun();
-        startRepair(att);
     }
 
     @Override
-    public String toString() {
-        return "Rifle{" +
-                "ammoType=" + ammoType +
-                ", maxAmmoNumber=" + maxAmmoNumber +
-                ", accuracy=" + accuracy +
-                ", currentAmmoNumber=" + currentAmmoNumber +
-                '}';
+    public String getDescription() {
+        return "Огнестрельный ";
     }
 }

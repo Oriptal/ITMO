@@ -2,7 +2,7 @@ package Team.Human.ImaginaryHuman;
 
 import Item.Clothes.Clothes;
 import Item.Medicines.Bandages;
-import Item.Medicines.Beer;
+import Item.Medicines.Syringe;
 import Item.Medicines.MedKit;
 import Item.Item;
 import Item.ItemType;
@@ -17,27 +17,26 @@ abstract public class ImaginaryHuman extends Human {
     final public double agility;
     final public double humanAccuracy;
     final public double strength;
-    protected ArrayList<Item> inventory = new ArrayList<Item>();
-    protected HashMap<String, Clothes> clothes = new HashMap<>();
-    protected int[] effectTime = new int[4];
-    protected ImaginaryHumanType humanType;
+    final protected ArrayList<Item> inventory = new ArrayList<Item>();
+    final protected HashMap<String, Clothes> clothes = new HashMap<>();
+    final protected int[] effectTime = new int[4];
+    protected final ImaginaryHumanType humanType;
 
     final protected class Hands extends Weapon {
         public Hands() {
-            super(100, 0.0, 0.0, 1, 2, -1);
+            super(0.0, 0.0, 1, 2, -1, 0);
         }
 
         @Override
-        public String describe() {
-            return "Hands";
+        public String toString() {
+            return "Руки";
         }
 
         @Override
         protected double calculatePureDamage() {
-            return 1;
+            return ImaginaryHuman.this.strength;
         }
     }
-
 
     public ImaginaryHuman(String name, ImaginaryHumanType imaginaryHumanType) {
         super(name);
@@ -68,10 +67,23 @@ abstract public class ImaginaryHuman extends Human {
         if (sumVolume > maxInventoryVolume) {
             effectTime[3] = -1;
         }
+
+        System.out.println(this);
+    }
+
+    public double getHealth() {
+        return health;
     }
 
     public void setClothes(String clothesName, Clothes clothesValue) {
         this.clothes.put(clothesName, clothesValue);
+    }
+
+    public double calcDamageWithClothes(double damage) {
+        for (var item : this.clothes.values()) {
+            damage = item.reduceDamage(this, damage);
+        }
+        return damage;
     }
 
     abstract protected void addRifle();
@@ -83,7 +95,7 @@ abstract public class ImaginaryHuman extends Human {
         int healType = rand.nextInt(3);
         this.inventory.add(switch (healType) {
             case 0->(new Bandages());
-            case 1->(new Beer());
+            case 1->(new Syringe());
             case 2->(new MedKit());
             default -> throw new IllegalStateException("Unexpected value: " + healType);
         });
@@ -98,8 +110,14 @@ abstract public class ImaginaryHuman extends Human {
     }
 
     public void changeHealth(double value) {
+        double oldHealth = this.health;
         this.health += value;
         this.health = Math.max(0.0, Math.min(this.health, 100.0));
+        if (this.health < oldHealth) {
+            System.out.printf(this + "теряет %.2f очков здоровья.\n", (oldHealth - this.health));
+        } else {
+            System.out.printf(this + "восстанавливает %.2f очков здоровья.\n", (this.health - oldHealth));
+        }
     }
 
     public boolean hasEffect(Effect e) {
@@ -142,17 +160,39 @@ abstract public class ImaginaryHuman extends Human {
         return Objects.hash(super.hashCode(), health, agility, humanAccuracy, strength, inventory, clothes, Arrays.hashCode(effectTime), humanType);
     }
 
+    public String description() {
+        return (this.humanType == ImaginaryHumanType.POLICY ? "Полицейский ": "Бандит ") + getName();
+    }
+
     @Override
     public String toString() {
-        return "ImaginaryHuman{" +
-                "health=" + health +
-                ", agility=" + agility +
-                ", humanAccuracy=" + humanAccuracy +
-                ", strength=" + strength +
-                ", inventory=" + inventory +
-                ", clothes=" + clothes +
-                ", effectTime=" + Arrays.toString(effectTime) +
-                ", humanType=" + humanType +
-                '}';
+        StringBuilder ans = new StringBuilder();
+        if (this.agility > 1) {
+            ans.append("Меткий ");
+        }
+        if (this.strength > 1) {
+            ans.append("Сильный ");
+        }
+        for (int i = 0; i < this.effectTime.length; i++) {
+            if (this.effectTime[i] != 0) {
+                ans.append(Effect.values()[i].toString()).append("ный ");
+            }
+        }
+        ans.append(this.humanType == ImaginaryHumanType.POLICY ? "Полицейский " : "Блатной ").append(super.getName()).append(".\n");
+        if (!inventory.isEmpty()) ans.append("Он снаряжён:\n");
+        else ans.append("У него ничего нет.");
+        for (Item item : this.inventory) {
+            if (item instanceof Hands) continue;
+            ans.append(item).append(", ");
+        }
+        ans = new StringBuilder(ans.substring(0, ans.length() - 2));
+        ans.append(".\n");
+        ans.append("Он одет в ");
+        for (var clothes : this.clothes.values()) {
+            ans.append(clothes.toString()).append(", ");
+        }
+        ans = new StringBuilder(ans.substring(0, ans.length() - 2));
+        ans.append(".\n");
+        return ans.toString();
     }
 }

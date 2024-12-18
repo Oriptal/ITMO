@@ -5,7 +5,7 @@ import Team.Human.ImaginaryHuman.ImaginaryHuman;
 
 public class BulletproofVest extends Clothes {
     public BulletproofVest() {
-        super(5.0, 0.8, -2, 0.8);
+        super(5.0, 0.8, -2, 0.15, 25);
     }
 
     @Override
@@ -14,7 +14,7 @@ public class BulletproofVest extends Clothes {
     }
 
     @Override
-    protected String describe() {
-        return "BulletproofVest";
+    public String toString() {
+        return "Бронежилет";
     }
 }

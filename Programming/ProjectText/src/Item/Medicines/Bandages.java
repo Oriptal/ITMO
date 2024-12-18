@@ -6,7 +6,7 @@ public class Bandages extends Medicines {
     }
 
     @Override
-    protected String describe() {
-        return "Bandages";
+    public String toString() {
+        return "Бинты";
     }
 }

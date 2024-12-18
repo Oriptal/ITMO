@@ -6,8 +6,8 @@ import Item.Weapon.Rifle.AmmoType;
 public class Assault extends Rifle {
     final private AssaultType assaultType;
     public Assault(AssaultType assaultType) {
-        super(100, getWeight(assaultType), getVolume(assaultType),
-                getRepair(assaultType), AmmoType.AssaultAmmo, 30, 30, 0.8, -3);
+        super(getWeight(assaultType), getVolume(assaultType),
+                getRepair(assaultType), AmmoType.AssaultAmmo, 30, 30, 0.8, -3, 15);
         this.assaultType = assaultType;
     }
 
@@ -33,8 +33,13 @@ public class Assault extends Rifle {
     }
 
     @Override
-    protected String describe() {
-        return "Assault " + assaultType.name();
+    public String getDescription() {
+        return super.getDescription() + assaultType.toString();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Автомат " + assaultType.toString() + " с патронами на винтовку";
     }
 }
 

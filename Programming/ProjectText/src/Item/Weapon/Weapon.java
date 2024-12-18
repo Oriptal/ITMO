@@ -11,8 +11,8 @@ abstract public class Weapon extends Item {
     final public int repairCost;
     private int curRepairTime;
 
-    protected Weapon(int percentageDurability, double weight, double volume, int repairTime, int repairCost, int durabilityDelta) {
-       super(percentageDurability, weight, volume, ItemType.WEAPON, durabilityDelta);
+    protected Weapon(double weight, double volume, int repairTime, int repairCost, int durabilityDelta, int cost) {
+       super(weight, volume, ItemType.WEAPON, durabilityDelta, cost);
        this.maxRepairTime = Math.max(0, repairTime);
        this.repairCost = repairCost;
     }
@@ -34,10 +34,11 @@ abstract public class Weapon extends Item {
     public void startRepair(ImaginaryHuman att) {
         if (!this.isRepaired()) {
             if (this.getRepairTime() == 0 && att.getMoneyAmount() >= this.repairCost) {
-                att.raiseMoney(this.repairCost);
+                att.spendMoney(this.repairCost);
                 this.setDurability(100);
                 this.setRepairTime(this.maxRepairTime);
             }
+            System.out.println("Чинит оружие.\n");
         }
     }
 
@@ -58,16 +59,25 @@ abstract public class Weapon extends Item {
                 if (att.hasEffect(Effect.INTERSTED)) chance *= 1.15;
                 sumDamage += chance*calculatePureDamage();
                 this.changeDurability();
-                if (this.getDurability() == 0 || rand.nextDouble() < 0.01) {
+                if (rand.nextDouble() < 0.01) {
                     this.setDurability(0);
+                    System.out.println("Оружие заклинило.");
+                } else if (this.getDurability() == 0) {
+                    System.out.println("Оружие сломалось.");
                     break;
                 }
             }
+            double oldDamage = sumDamage;
+            sumDamage = opp.calcDamageWithClothes(sumDamage);
+            System.out.print(att.description() + " атакует " + opp.description() + ", используя " + this.getDescription() + ".\n" + opp.description() + " ");
             opp.changeHealth(-sumDamage);
+            System.out.printf("Заблокировав, при этом %.2f урона.\n", (oldDamage - sumDamage));
             if (rand.nextInt(3) < 1) {
+                System.out.println(att.description() + " заинтересовывается.");
                 att.addEffect(Effect.INTERSTED, rand.nextInt(10));
             }
             if (rand.nextInt(3) < 1) {
+                System.out.println(opp.description() + " шокирован происходящим.");
                 opp.addEffect(Effect.SHOKED, rand.nextInt(10));
             }
         }
@@ -93,10 +103,6 @@ abstract public class Weapon extends Item {
 
     @Override
     public String toString() {
-        return "Weapon{" +
-                "maxRepairTime=" + maxRepairTime +
-                ", repairCost=" + repairCost +
-                ", curRepairTime=" + curRepairTime +
-                '}';
+        return "Огнестрельный ";
     }
 }

@@ -6,8 +6,8 @@ import Item.Weapon.Rifle.AmmoType;
 public class Pistol extends Rifle {
     final private PistolType pistolType;
     public Pistol(PistolType pistolType) {
-        super(100, getWeight(pistolType), getVolume(pistolType),
-                getRepair(pistolType), AmmoType.ParaBellumAmmo, 10, 5, 1, -2);
+        super(getWeight(pistolType), getVolume(pistolType),
+                1, AmmoType.ParaBellumAmmo, 10, 5, 1, -2, 10);
         this.pistolType = pistolType;
     }
 
@@ -25,13 +25,14 @@ public class Pistol extends Rifle {
         };
     }
 
-    private static int getRepair(PistolType pistolType) {
-        return 1;
+    @Override
+    public String getDescription() {
+        return super.getDescription() + pistolType.toString();
     }
 
     @Override
-    protected String describe() {
-        return "Pistol " + pistolType.name();
+    public String toString() {
+        return super.toString() + "Пистолет " + pistolType.toString() + " с патронами " + this.getAmmoType().toString();
     }
 }
 

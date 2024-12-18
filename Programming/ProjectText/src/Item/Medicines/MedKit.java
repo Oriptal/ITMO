@@ -6,7 +6,7 @@ public class MedKit extends Medicines{
     }
 
     @Override
-    protected String describe() {
-        return "Medkit";
+    public String toString() {
+        return "Аптечка";
     }
 }

@@ -3,19 +3,23 @@ package Item;
 import Team.Human.ImaginaryHuman.ImaginaryHuman;
 
 import java.util.Objects;
+import java.util.Random;
 
-abstract public class Item {
+abstract public class Item implements Describable{
     private int percentageDurability;
     final private int durabilityDelta;
     final private double weight;
     final private double volume;
     final public ItemType itemType;
+    final protected int cost;
 
-    protected Item(int percentageDurability, double weight, double volume, ItemType itemType, int durabilityDelta) {
-        this.percentageDurability = Math.min(100, Math.max(0, percentageDurability));
+    protected Item(double weight, double volume, ItemType itemType, int durabilityDelta, int cost) {
+        Random rand = new Random();
+        this.percentageDurability = rand.nextInt(100) + 1;
         this.weight = Math.max(0.1, weight);
         this.volume = Math.max(0.1, volume);
         this.itemType = itemType;
+        this.cost = cost;
         this.durabilityDelta = durabilityDelta;
     }
 
@@ -43,8 +47,6 @@ abstract public class Item {
 
     abstract public void use(ImaginaryHuman... user);
 
-    protected abstract String describe();
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -55,16 +57,5 @@ abstract public class Item {
     @Override
     public int hashCode() {
         return Objects.hash(percentageDurability, durabilityDelta, weight, volume, itemType);
-    }
-
-    @Override
-    public String toString() {
-        return "Item{" +
-                "percentageDurability=" + percentageDurability +
-                ", durabilityDelta=" + durabilityDelta +
-                ", weight=" + weight +
-                ", volume=" + volume +
-                ", itemType=" + itemType +
-                '}';
     }
 }

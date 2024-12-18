@@ -5,7 +5,7 @@ import Team.Human.ImaginaryHuman.ImaginaryHuman;
 
 public class Shirt extends Clothes {
     public Shirt() {
-        super(0.3, 0.2, -20, 0.3);
+        super(0.3, 0.2, -20, 0.1, 5);
     }
 
     @Override
@@ -14,7 +14,7 @@ public class Shirt extends Clothes {
     }
 
     @Override
-    protected String describe() {
-        return "Shirt";
+    public String toString() {
+        return "Футболка";
     }
 }

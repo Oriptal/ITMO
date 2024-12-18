@@ -1,16 +1,9 @@
 import Team.Team;
 import java.util.Random;
 
-public class Battle {
-    Team policy;
-    Team bandit;
-
-    public Battle(Team policy, Team bandit) {
-        this.policy = policy;
-        this.bandit = bandit;
-    }
-
+public record Battle(Team policy, Team bandit) {
     public void start() {
+        System.out.println("Началась перестрелка:\n");
         Random rand = new Random();
         int queue = rand.nextInt(2);
         while (policy.isAlive() && bandit.isAlive()) {

@@ -6,8 +6,8 @@ import Item.Weapon.Rifle.Rifle;
 public class Shotgun extends Rifle {
     final private ShotgunType shotgunType;
     public Shotgun(ShotgunType shotgunType) {
-        super(100, getWeight(shotgunType), getVolume(shotgunType), 
-        getRepair(shotgunType), AmmoType.MagnumAmmo, 7, 20, 0.4, -5);
+        super(getWeight(shotgunType), getVolume(shotgunType),
+        getRepair(shotgunType), AmmoType.MagnumAmmo, 7, 20, 0.4, -5, 20);
         this.shotgunType = shotgunType;
     }
 
@@ -41,8 +41,13 @@ public class Shotgun extends Rifle {
     }
 
     @Override
-    public String describe() {
-        return "Shotgun " + shotgunType.name();
+    public String getDescription() {
+        return super.getDescription() + shotgunType.name();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "Дробовик " + shotgunType.name() + " с патронами " + this.getAmmoType().toString();
     }
 }
 
