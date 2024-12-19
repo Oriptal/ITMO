@@ -1,0 +1,18 @@
+ORG 0x142
+
+a: WORD 0x4142 ; 142
+b: WORD 0x0100 ; 143
+
+START:
+LD $c ; $c -> AC
+OR $d ; $d | AC -> AC
+ST $e ; AC -> $e
+CLA ; 0 -> AC
+ADD $a ; $a + AC -> AC
+ADD $e ; $e + AC -> AC
+ST $b ; a + (c | d) -> b
+HLT ; ОСТАНОВ
+
+c: WORD 0x314D ; 14C
+d: WORD 0xA14C ; 14D
+e: WORD 0x4142 ; 14E
